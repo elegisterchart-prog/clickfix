@@ -9,6 +9,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libpng-dev \
     libonig-dev \
     libxml2-dev \
+    libzip-dev \
+    zlib1g-dev \
     curl \
     && docker-php-ext-install pdo_pgsql pgsql mbstring exif pcntl bcmath zip \
     && a2enmod rewrite headers expires \

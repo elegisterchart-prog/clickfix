@@ -3,6 +3,7 @@
 .github
 .env
 .env.*
+!.env.example
 node_modules
 vendor
 storage/app/public
