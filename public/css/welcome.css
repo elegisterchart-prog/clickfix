@@ -1,0 +1,173 @@
+/* Welcome page specific styles - does not affect other pages */
+.welcome-hero {
+    position: relative;
+    min-height: 100vh;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    z-index: 1;
+    background: transparent;
+    box-shadow: none;
+    isolation: isolate;
+}
+
+.welcome-shell {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: #fff;
+    padding: 48px 40px;
+    width: 520px;
+    max-width: calc(100% - 40px);
+    background: rgba(6, 10, 20, 0.52);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 30px 80px rgba(7, 10, 20, 0.48);
+    border-radius: 20px;
+    backdrop-filter: blur(6px) saturate(1.06);
+    -webkit-backdrop-filter: blur(6px) saturate(1.06);
+}
+
+.logo-box {
+    width: 92px;
+    height: 92px;
+    margin: 0 auto 18px;
+    border-radius: 18px;
+    background: linear-gradient(135deg,#5b21b6,#2563eb);
+    display: grid;
+    place-items: center;
+    box-shadow: 0 18px 36px rgba(37,99,235,0.14), inset 0 1px 0 rgba(255,255,255,0.12);
+    border: none;
+    font-weight: 900;
+    font-size: 34px;
+    color: #fff;
+}
+
+.brand-large {
+    font-size: 48px;
+    font-weight: 900;
+    margin: 6px 0 6px;
+    color: #ffffff;
+    text-shadow: 0 6px 18px rgba(0,0,0,0.45);
+    display: block;
+    background: transparent;
+    padding: 0;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+}
+
+.welcome-tagline {
+    margin-top: 8px;
+    color: rgba(255,255,255,0.88);
+    font-weight: 600;
+    opacity: 0.9;
+    margin-bottom: 22px;
+}
+
+.welcome-actions {
+    display: inline-flex;
+    gap: 12px;
+    margin: 18px 0 18px;
+}
+
+.welcome-actions .btn {
+    padding: 10px 20px;
+    border-radius: 999px;
+    font-weight: 800;
+    cursor: pointer;
+    text-decoration: none;
+    border: none;
+    box-shadow: none;
+}
+
+.btn-primary {
+    background: rgba(255,255,255,0.10);
+    color: #fff;
+    box-shadow: none;
+}
+
+.btn-secondary {
+    background: transparent;
+    color: #fff;
+    border: 1px solid rgba(255,255,255,0.12);
+}
+
+.welcome-pills {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    margin-top: 26px;
+}
+
+.welcome-pills .pill {
+    background: rgba(255,255,255,0.04);
+    color: rgba(255,255,255,0.85);
+    padding: 10px 16px;
+    border-radius: 999px;
+    font-weight: 700;
+    box-shadow: none;
+    border: 1px solid rgba(255,255,255,0.10);
+}
+
+/* Responsive tweaks */
+@media (max-width: 860px) {
+    .brand-large { font-size: 44px; }
+    .logo-box { width: 74px; height: 74px; font-size: 28px; }
+}
+
+@media (max-width: 480px) {
+    .brand-large { font-size: 32px; }
+    .welcome-tagline { font-size: 0.95rem; }
+    .welcome-actions { flex-direction: column; gap: 10px; }
+}
+
+/* Background slideshow with computer hardware visuals */
+.bg-slideshow {
+    position: fixed;
+    inset: 0;
+    z-index: -3;
+    pointer-events: none;
+    overflow: hidden;
+    background: #111827;
+}
+
+.bg-slideshow .slide {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center center;
+    filter: saturate(1.05) contrast(1) brightness(0.62);
+    opacity: 0;
+    transform: scale(1.08);
+    animation: slidefade 20s infinite ease-in-out;
+}
+
+.bg-slideshow .slide:nth-child(1) {
+    background-image: url('/images/welcome/slide-1.png');
+    animation-delay: 0s;
+}
+.bg-slideshow .slide:nth-child(2) {
+    background-image: url('/images/welcome/slide-2.png');
+    animation-delay: 5s;
+}
+.bg-slideshow .slide:nth-child(3) {
+    background-image: url('/images/welcome/slide-3.png');
+    animation-delay: 10s;
+}
+.bg-slideshow .slide:nth-child(4) {
+    background-image: url('/images/welcome/slide-4.png');
+    animation-delay: 15s;
+}
+
+@keyframes slidefade {
+    0%, 18% { opacity: 0; }
+    22%, 44% { opacity: 1; }
+    50%, 100% { opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .bg-slideshow .slide {
+        animation: none;
+        opacity: 1 !important;
+    }
+}

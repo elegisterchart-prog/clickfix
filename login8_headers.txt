@@ -1,0 +1,20 @@
+HTTP/1.1 302 Found
+Host: 127.0.0.1:8080
+Connection: close
+X-Powered-By: PHP/8.5.8
+Cache-Control: no-cache, private
+Date: Sat, 01 Aug 2026 17:54:09 GMT
+Location: http://127.0.0.1:8080/technician
+Content-Type: text/html; charset=utf-8
+Set-Cookie: XSRF-TOKEN=eyJpdiI6IndlQUlZZ295cnF4blJvdllkUit6Y0E9PSIsInZhbHVlIjoiNURWU3F6NDdnQWRzbm05L21vZlczdTFsTXNZWG1oYXZvc0RJYVFuY25iYm0xSnNDQXN5aHJpdU96R25vdzllSlE4ZkN4M0RsOEVNTjh2MHRTZk80KzdXMzhHSm01ekdPZElyOG9GVWU4TG85a1RZRGE1bTBqdVpYRC9XYjFWUFQiLCJtYWMiOiI1OTEzM2YxMmE3OGY1ZDU5MjI0NGU5YjU3NTQ3ZDFiOTgzYTJiOTQzYzgyMzNlNmRiNTg2OGYyZTNlMDlkZjdiIiwidGFnIjoiIn0%3D; expires=Sat, 01 Aug 2026 19:54:09 GMT; Max-Age=7200; path=/; samesite=lax
+Set-Cookie: clickfix-session=eyJpdiI6IjluMmV6TDdiYXkraXdjdzFiQ3Q3ZHc9PSIsInZhbHVlIjoiaGVVcGE2N0gzWEoxYm5zazZsVHgyMklCVzExb2dVd3A0K1JPNTBGT0c4eDRqWnFwaXJoNUczNGtBZ3dMQXVsV2RoSlI4QzJpMUxQejR2ZDl2VUhDaXNsNW54c0VyY3E5REVrYXp0dXFHTjVEeWNTWVArWDR4eTI5N1V6Q1BqZjUiLCJtYWMiOiJkMTM4NmIzNTc2YWRmMTdlOTJjMTMyZjA1MjUyYzBmNTcyZWUxNmEzNWYzOTgyNzNiOTlhMmVlOTJjNzgwZDExIiwidGFnIjoiIn0%3D; expires=Sat, 01 Aug 2026 19:54:09 GMT; Max-Age=7200; path=/; httponly; samesite=lax
+
+HTTP/1.1 405 Method Not Allowed
+Host: 127.0.0.1:8080
+Connection: close
+X-Powered-By: PHP/8.5.8
+allow: GET, HEAD
+Cache-Control: no-cache, private
+date: Sat, 01 Aug 2026 17:54:10 GMT
+Content-Type: text/html; charset=utf-8
+

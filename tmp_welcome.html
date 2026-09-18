@@ -1,0 +1,192 @@
+﻿
+
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ClickFix</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css" integrity="sha512-NhSC1Y_aV+HcM0sT7Hc39a3C4nFqYap44zK1/C3mLlTZHp8g84iBqg7c6xQHGVZrQ3Lrc1phc2x3UqSf8z9Ppg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <style>
+        :root {
+            --bg: #eaf4fb;
+            --bg-strong: #dfeef7;
+            --panel: rgba(255, 255, 255, 0.9);
+            --panel-strong: rgba(255,255,255,0.96);
+            --surface: #f5f9fc;
+            --surface-strong: #edf4fb;
+            --line: rgba(148, 163, 184, 0.25);
+            --text: #0f172a;
+            --muted: #475569;
+            --primary: #1d4ed8;
+            --primary-soft: #eaf2ff;
+            --accent: #7c3aed;
+            --dark: #1d2a3a;
+            --dark-soft: #293b4f;
+            --shadow: 0 18px 42px rgba(15, 23, 42, 0.08);
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+        * { box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #f3f6fb;
+            color: var(--text);
+            font-family: Inter, "Segoe UI", sans-serif;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        .bg-static {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background:
+                linear-gradient(rgba(15, 23, 42, 0.20), rgba(15, 23, 42, 0.20)),
+                url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1800&q=80') center/cover no-repeat;
+            filter: saturate(1.1) brightness(0.72);
+        }
+        a { color: inherit; text-decoration: none; }
+        button, input, textarea, select { font: inherit; }
+        .page-wrapper { position: relative; z-index: 1; width: min(1200px, calc(100% - 32px)); margin: 0 auto; padding: 24px 0 52px; }
+        header {
+            display: flex; justify-content: space-between; align-items: center; gap: 18px; padding: 18px 22px;
+            border-radius: 28px;
+            background: transparent;
+            border: none;
+            box-shadow: none;
+            backdrop-filter: none;
+        }
+        .brand {
+            display: inline-flex; align-items: center; gap: 12px; font-size: clamp(1.6rem, 2vw, 2.1rem); font-weight: 800; letter-spacing: -0.05em; color: #111827;
+        }
+        .brand::before {
+            content: "c"; display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 10px;
+            background: linear-gradient(135deg, #8b5cf6, #c4b5fd); color: #fff; font-weight: 900; font-size: 0.85rem; box-shadow: inset 0 1px 0 rgba(255,255,255,0.5);
+        }
+        nav { display: flex; flex-wrap: wrap; justify-content: flex-end; align-items: center; gap: 10px; }
+        nav a, nav form button, nav .dropdown-toggle {
+            display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; padding: 8px 14px; font-size: 0.92rem;
+            color: var(--text); border: 1px solid transparent; background: transparent; font-weight: 700; transition: all 0.18s ease; cursor: pointer;
+        }
+        nav a:hover, nav form button:hover, nav .dropdown-toggle:hover { background: rgba(15, 23, 42, 0.03); }
+        .nav-cta { background: rgba(15,23,42,0.025); border-color: rgba(148,163,184,0.16); }
+        .nav-cta.active { background: linear-gradient(180deg, #f0f6ff, #edf4ff); border-color: rgba(96,165,250,0.3); color: var(--primary); }
+        nav .button-secondary, nav form button.button-secondary { background: #f8fafc; border: 1px solid rgba(148,163,184,0.16); color: var(--text); }
+        .nav-item { position: relative; }
+        .dropdown-menu { position: absolute; top: calc(100% + 10px); left: 0; min-width: 220px; padding: 8px; border-radius: 18px; background: rgba(255,255,255,0.98); border: 1px solid var(--line); box-shadow: var(--shadow); opacity: 0; visibility: hidden; transform: translateY(8px); transition: all 0.18s ease; z-index: 30; }
+        .nav-item:hover .dropdown-menu, .nav-item:focus-within .dropdown-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+        .dropdown-item { display: block; padding: 10px 12px; border-radius: 12px; color: var(--text); font-weight: 600; }
+        .dropdown-item:hover { background: rgba(37,99,235,0.04); }
+        .card, .service-card, .feature-card, .spec-card, .component-card, .summary-card, .auth-card, .steps-wrap, .dark-panel { border: 1px solid var(--line); box-shadow: var(--shadow); }
+        .card { background: linear-gradient(180deg, rgba(255,255,255,0.96), rgba(248,250,252,0.98)); border-radius: 30px; padding: 28px; }
+        .main-hero { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(360px, 0.95fr); gap: 26px; align-items: center; margin-top: 28px; }
+        .hero-left { padding: 8px 0; }
+        .eyebrow { display: inline-flex; align-items: center; margin-bottom: 18px; padding: 7px 12px; border-radius: 999px; background: rgba(37,99,235,0.06); border: 1px solid rgba(37,99,235,0.12); color: var(--primary); font-size: 0.7rem; font-weight: 800; text-transform: uppercase; letter-spacing: 0.14em; }
+        .hero-left h1 { margin: 0 0 18px; font-size: clamp(2.4rem, 4vw, 4.2rem); line-height: 1.06; letter-spacing: -0.06em; color: #0f172a; }
+        .hero-left p, p, .auth-subtitle, .service-card p, .summary-card p, .feature-content p, .feature-block-content p, .spec-summary, .section-heading { color: var(--muted); line-height: 1.75; }
+        .stats-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 28px; max-width: 620px; }
+        .stat-box { display: flex; flex-direction: column; justify-content: center; min-height: 110px; padding: 20px 16px; border-radius: 18px; background: rgba(255,255,255,0.5); border: 1px solid var(--line); }
+        .stat-box strong { display: block; color: #0f172a; font-size: clamp(1.8rem, 2vw, 2.35rem); letter-spacing: -0.06em; margin-bottom: 8px; }
+        .stat-box span { color: var(--muted); font-size: 0.9rem; }
+        .dark-panel { padding: 14px 16px 16px; border-radius: 24px; background: linear-gradient(180deg, #1d2a3a 0%, #243546 100%); color: #edf8ff; }
+        .dark-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 12px; padding: 2px 2px 10px; font-size: 1.05rem; font-weight: 700; }
+        .trusted-pill { display: inline-flex; align-items: center; justify-content: center; padding: 6px 10px; border-radius: 999px; background: rgba(255,255,255,0.08); color: #dbeafe; font-size: 0.72rem; font-weight: 700; }
+        .mini-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+        .mini-card { display: flex; align-items: flex-start; gap: 10px; min-height: 120px; padding: 14px 12px; border-radius: 18px; background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.06); color: inherit; transition: transform 0.18s ease, border-color 0.18s ease, background 0.18s ease; }
+        .mini-card:hover { transform: translateY(-2px); background: rgba(255,255,255,0.08); border-color: rgba(125,211,252,0.25); }
+        .mini-card.wide { grid-column: 1 / -1; min-height: 100px; }
+        .step-number { display: inline-grid; place-items: center; width: 30px; height: 30px; flex-shrink: 0; border-radius: 50%; background: rgba(125,211,252,0.12); border: 1px solid rgba(125,211,252,0.18); color: #edf9ff; font-size: 0.82rem; font-weight: 800; }
+        .mini-card h3 { margin: 0 0 6px; color: #f8fbff; font-size: 1.06rem; }
+        .mini-card p { margin: 0; color: rgba(191,219,254,0.8); line-height: 1.56; font-size: 0.88rem; }
+        .steps-wrap { margin-top: 24px; padding: 22px 24px 18px; border-radius: 28px; background: rgba(255,255,255,0.54); border: 1px solid var(--line); }
+        .steps-wrap h2 { margin: 0 0 18px; font-size: clamp(2rem, 2vw, 2.8rem); letter-spacing: -0.05em; color: var(--text); }
+        .steps-list { display: grid; gap: 12px; }
+        .step-item { display: flex; align-items: center; gap: 16px; padding: 16px 18px; border-radius: 18px; background: rgba(255,255,255,0.42); border: 1px solid rgba(148,163,184,0.14); }
+        .step-badge { display: inline-grid; place-items: center; width: 38px; height: 38px; border-radius: 12px; background: linear-gradient(135deg, rgba(37,99,235,0.08), rgba(139,92,246,0.08)); border: 1px solid rgba(37,99,235,0.14); color: var(--primary); font-weight: 800; }
+        .step-copy h3, .feature-content h3, .feature-block-content h3, .service-card h2, .summary-card h2, .component-card h2, .spec-card-title { margin: 0 0 10px; color: var(--text); }
+        .button-primary, .button-secondary { display: inline-flex; align-items: center; justify-content: center; border-radius: 999px; padding: 11px 20px; border: 1px solid transparent; font-weight: 800; cursor: pointer; transition: transform 0.18s ease, box-shadow 0.18s ease; text-decoration: none; }
+        .button-primary { background: linear-gradient(135deg, rgba(37,99,235,0.14), rgba(139,92,246,0.12)); border-color: rgba(37,99,235,0.18); color: var(--primary); box-shadow: 0 12px 22px rgba(37, 99, 235, 0.08); }
+        .button-secondary { background: rgba(15, 23, 42, 0.02); border-color: rgba(148,163,184,0.2); color: var(--text); }
+        .button-primary:hover, .button-secondary:hover { transform: translateY(-2px); }
+        .auth-shell { display: grid; place-items: center; min-height: calc(100vh - 220px); padding: 34px 0; }
+        .auth-card { width: min(520px, calc(100% - 24px)); padding: 28px; border-radius: 28px; background: rgba(255,255,255,0.92); }
+        .auth-card h1 { margin: 0 0 10px; font-size: clamp(2rem, 3vw, 2.7rem); letter-spacing: -0.06em; color: var(--text); }
+        .auth-subtitle { margin: 0 0 26px; color: var(--muted); line-height: 1.7; }
+        .auth-card form { display: grid; gap: 18px; }
+        .form-group { margin: 0; }
+        .form-group label { display: block; margin-bottom: 8px; color: var(--text); font-weight: 700; }
+        .form-group input, .form-group textarea, .form-group select, input[type="text"], input[type="email"], input[type="password"], input[type="number"], select, textarea { width: 100%; padding: 14px 16px; border-radius: 16px; border: 1px solid rgba(148,163,184,0.35); background: rgba(248,250,252,0.9); color: var(--text); }
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus, input:focus, textarea:focus, select:focus { outline: none; border-color: rgba(37,99,235,0.5); box-shadow: 0 0 0 4px rgba(37,99,235,0.08); background: rgba(255,255,255,1); }
+        .auth-card .button-primary { width: 100%; padding: 16px 20px; }
+        .auth-meta { margin-top: 16px; text-align: center; color: var(--muted); }
+        .auth-meta a { color: var(--primary); font-weight: 700; }
+        .alert { margin-bottom: 20px; padding: 16px 18px; border-radius: 18px; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.18); color: #991b1b; }
+        .error-list { margin: 0; padding-left: 18px; color: #991b1b; }
+        .service-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 18px; margin-top: 22px; }
+        .service-card { display: flex; flex-direction: column; gap: 18px; min-height: 100%; padding: 22px; border-radius: 24px; background: rgba(255,255,255,0.88); }
+        .service-card a { margin-top: auto; }
+        .summary-card { padding: 22px; border-radius: 24px; background: rgba(255,255,255,0.82); }
+        .summary-list { margin: 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+        .summary-list li { display: flex; justify-content: space-between; gap: 12px; padding: 16px 18px; border-radius: 18px; background: rgba(248,250,252,0.8); border: 1px solid rgba(148,163,184,0.18); }
+        .summary-total { display: flex; justify-content: space-between; gap: 12px; margin-top: 20px; padding-top: 14px; border-top: 1px solid rgba(148,163,184,0.2); font-size: 1.1rem; font-weight: 800; color: var(--text); }
+        table { width: 100%; border-collapse: collapse; background: rgba(255,255,255,0.6); border-radius: 18px; overflow: hidden; }
+        th, td { padding: 14px 12px; border-bottom: 1px solid rgba(148,163,184,0.18); text-align: left; vertical-align: top; }
+        thead th { background: rgba(37,99,235,0.04); color: var(--text); font-size: 0.82rem; letter-spacing: 0.04em; text-transform: uppercase; }
+        tbody tr:hover { background: rgba(37,99,235,0.02); }
+        .section-heading { margin: 0 0 12px; font-size: clamp(1.6rem, 2vw, 2.2rem); letter-spacing: -0.05em; color: var(--text); }
+        .form-actions { display: flex; gap: 12px; justify-content: flex-end; flex-wrap: wrap; margin-top: 22px; }
+        @media (max-width: 900px) { .main-hero { grid-template-columns: 1fr; } .stats-grid { grid-template-columns: 1fr; } }
+        @media (max-width: 768px) { .page-wrapper { width: min(100% - 18px, 1200px); padding-top: 16px; } header { flex-direction: column; align-items: flex-start; gap: 14px; } nav { width: 100%; justify-content: flex-start; flex-wrap: wrap; } .card, .auth-card, .steps-wrap { padding-left: 18px; padding-right: 18px; } }
+    </style>
+</head>
+<body>
+    <div class="bg-static" aria-hidden="true"></div>
+
+    <div class="page-wrapper">
+                    <header style="display:none;">
+                <a href="http://127.0.0.1:8081" class="brand">ClickFix</a>
+                <nav>
+                    <a href="http://127.0.0.1:8081" class="nav-cta active">หน้าแรก</a>
+                    <a href="http://127.0.0.1:8081/login" class="nav-cta">เข้าสู่ระบบ</a>
+                    <a href="http://127.0.0.1:8081/register" class="button-secondary">ลงทะเบียน</a>
+                </nav>
+            </header>
+        
+        
+        <link rel="stylesheet" href="http://127.0.0.1:8081/css/welcome.css">
+
+<div class="bg-slideshow" aria-hidden="true">
+    <div class="slide"></div>
+    <div class="slide"></div>
+    <div class="slide"></div>
+    <div class="slide"></div>
+</div>
+
+<div class="welcome-hero">
+    <div class="welcome-shell">
+        <div class="logo-box">C</div>
+        <div class="brand-large">ClickFix</div>
+        <div class="welcome-tagline">ซ่อมคอมพิวเตอร์ • จำหน่ายอะไหล่ • บริการครบวงจร</div>
+
+        <div class="welcome-actions">
+                            <a href="http://127.0.0.1:8081/login" class="btn btn-primary">Login</a>
+                <a href="http://127.0.0.1:8081/register" class="btn btn-secondary">Sign in</a>
+                    </div>
+
+        <div class="welcome-pills">
+            <span class="pill">ซ่อมด่วน</span>
+            <span class="pill">จำหน่ายชิ้นส่วน</span>
+            <span class="pill">ประกันชัดเจน</span>
+        </div>
+    </div>
+</div>
+    </div>
+</body>
+</html>
+

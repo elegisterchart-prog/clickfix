@@ -1,0 +1,20 @@
+HTTP/1.1 302 Found
+Host: 127.0.0.1:8080
+Connection: close
+X-Powered-By: PHP/8.5.8
+Cache-Control: no-cache, private
+Date: Sat, 01 Aug 2026 17:38:58 GMT
+Location: http://127.0.0.1:8080/dashboard
+Content-Type: text/html; charset=utf-8
+Set-Cookie: XSRF-TOKEN=eyJpdiI6ImUyVFFmWnAvdUJxSGRjb0FGK1ZrUXc9PSIsInZhbHVlIjoiTWhLbzJzNlFTZFRkVmg3bHFXY2tIaVYxS3l0UFFFN3hQQUJ6S25qcFBWemR5aVNzaG95QzRoVFRxVERvYktHc3JZN2wvcklUSmJTMnhzZ3FpcGpHRXVTMVJ1THFWYnprbW1ZTTdwL2M1ZnZZYTh0NmVJU1BSZG1YcEQwVWs1eGsiLCJtYWMiOiI2NGFhZjRiOTM4NjlmODIzNmIwYmI4ZDljZTMxN2M2N2NhOTMzYTNkZGViZDE4NzBiMGM5NTJlMjlmNjYxMGVhIiwidGFnIjoiIn0%3D; expires=Sat, 01 Aug 2026 19:38:58 GMT; Max-Age=7200; path=/; samesite=lax
+Set-Cookie: clickfix-session=eyJpdiI6InFTc0FGWGRuUTEwYmtKSXQ2N0pKTUE9PSIsInZhbHVlIjoiZWhqUlRGRTZZQTcvQThsWUFIa0FyWG1mcnN5UG5leGpZT2s2Z1cwdElOS013bmQ1em1Eam1NOWhRdGJnUTJxTENLUFUvU2ZWL09Sc3NkUHJtZXJONnRvYUFwblMvQ2xSRXBleUlMVU9lZkdMSHl5a0ZweExsdS9vK3FUemYvTGYiLCJtYWMiOiI0ZWNkOWUxYTI5NzZmZGE4ZDYwNmJhNzA0MjcxZTAzYzUwMzYyZTQyOTJmNWZkNTA2NTBkMzBmMTdiYjZhOWNhIiwidGFnIjoiIn0%3D; expires=Sat, 01 Aug 2026 19:38:58 GMT; Max-Age=7200; path=/; httponly; samesite=lax
+
+HTTP/1.1 405 Method Not Allowed
+Host: 127.0.0.1:8080
+Connection: close
+X-Powered-By: PHP/8.5.8
+allow: GET, HEAD
+Cache-Control: no-cache, private
+date: Sat, 01 Aug 2026 17:38:59 GMT
+Content-Type: text/html; charset=utf-8
+
