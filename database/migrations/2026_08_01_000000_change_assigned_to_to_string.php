@@ -44,7 +44,7 @@ return new class extends Migration
             DB::statement('ALTER TABLE repair_requests_temp RENAME TO repair_requests;');
             DB::statement('PRAGMA foreign_keys = ON;');
         } else {
-            DB::statement('ALTER TABLE repair_requests MODIFY assigned_to VARCHAR(255) NULL');
+            DB::statement('ALTER TABLE repair_requests ALTER COLUMN assigned_to TYPE VARCHAR(255) USING assigned_to::VARCHAR');
         }
     }
 
@@ -86,7 +86,7 @@ return new class extends Migration
             DB::statement('ALTER TABLE repair_requests_temp RENAME TO repair_requests;');
             DB::statement('PRAGMA foreign_keys = ON;');
         } else {
-            DB::statement('ALTER TABLE repair_requests MODIFY assigned_to BIGINT UNSIGNED NULL');
+            DB::statement('ALTER TABLE repair_requests ALTER COLUMN assigned_to TYPE BIGINT USING CASE WHEN assigned_to ~ \'^[0-9]+$\' THEN assigned_to::BIGINT ELSE NULL END');
         }
     }
 };

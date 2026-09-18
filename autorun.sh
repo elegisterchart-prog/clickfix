@@ -2,29 +2,29 @@
 set -e
 cd "$(dirname "$0")"
 
-echo "Preparing ClickFix environment..."
+echo "ClickFix autorun"
 
+echo "[1/4] Checking project files..."
 if [ ! -f .env ]; then
-  cp .env.example .env
-  echo "Created .env from .env.example"
+  if [ -f .env.example ]; then
+    cp .env.example .env
+    echo "Created .env from .env.example"
+  else
+    echo "ERROR: .env.example not found."
+    exit 1
+  fi
 fi
 
-if command -v docker >/dev/null 2>&1; then
-  echo "Docker detected. Starting application with Docker Compose..."
-  docker compose up --build
-  exit 0
+echo "[2/4] Checking PHP runtime..."
+if ! command -v php >/dev/null 2>&1; then
+  echo "ERROR: PHP is not installed or not in PATH."
+  exit 1
 fi
 
-echo "Docker not found. Falling back to PHP built-in server."
-if command -v php >/dev/null 2>&1; then
-  echo "Generating APP_KEY and running migrations..."
-  php artisan key:generate --force
-  php artisan migrate --force
-  echo "Serving application on http://localhost:8080"
-  php artisan serve --host=0.0.0.0 --port=8080
-  exit 0
-fi
+echo "[3/4] Preparing Laravel app..."
+php artisan key:generate --force
+php artisan migrate --force
 
-echo "ERROR: Neither Docker nor PHP CLI was found on this machine."
-echo "Install Docker or PHP and try again."
-exit 1
+echo "[4/4] Starting Laravel server..."
+echo "Serving on http://127.0.0.1:8000"
+php artisan serve --host=127.0.0.1 --port=8000

@@ -1,0 +1,16 @@
+.git
+.gitignore
+.github
+.env
+.env.*
+node_modules
+vendor
+storage/app/public
+storage/framework/cache/*
+storage/framework/sessions/*
+storage/framework/views/*
+storage/logs/*
+public/build
+npm-debug.log
+Dockerfile
+README.md

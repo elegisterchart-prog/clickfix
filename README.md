@@ -53,72 +53,111 @@ In order to ensure that the Laravel community is welcoming to all, please review
 
 If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
 
-## Deploying to Google Cloud Run
+## Railway deployment
 
-This project can be deployed to Google Cloud Run using the included `Dockerfile` and `cloudbuild.yaml`.
+This project is ready to deploy on Railway using the included `Dockerfile` and `railway.json` files.
 
-Steps:
-
-1. Install and authenticate the Google Cloud SDK.
-2. Create a new Google Cloud project and enable Cloud Run and Cloud Build.
-3. Build and push the container image:
+Required Railway environment variables:
 
 ```bash
-gcloud builds submit --config cloudbuild.yaml --substitutions=_IMAGE_NAME=laravel-app
+APP_NAME=ClickFix
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://your-railway-domain.up.railway.app
+APP_KEY=base64:generate_a_new_key_here
+TECHNICIAN_ACCESS_CODE=CHANGE_ME
+
+DB_CONNECTION=pgsql
+DB_HOST=aws-0-ap-northeast-1.pooler.supabase.com
+DB_PORT=5432
+DB_DATABASE=postgres
+DB_USERNAME=postgres.your_project_ref
+DB_PASSWORD=your_supabase_password
+DB_SSLMODE=require
+SESSION_DRIVER=file
+SESSION_SECURE_COOKIE=true
+SESSION_SAME_SITE=lax
 ```
 
-4. Deploy to Cloud Run:
+Then deploy the repo to Railway and it will automatically build with Docker and run the migrations on start.
+
+## Production deployment notes
+
+This project is configured for a PHP + Laravel deployment with a PostgreSQL database such as Supabase.
+
+### Required environment variables
+
+Set these in the deployment platform environment settings (Render, Railway, VPS, or Cloud Run):
 
 ```bash
-gcloud run deploy laravel-app \
-  --image gcr.io/$GOOGLE_CLOUD_PROJECT/laravel-app:latest \
-  --platform managed \
-  --region us-central1 \
-  --allow-unauthenticated \
-  --set-env-vars "APP_URL=https://YOUR_CLOUD_RUN_URL,APP_ENV=production,APP_DEBUG=false"
+APP_NAME=ClickFix
+APP_ENV=production
+APP_DEBUG=false
+APP_URL=https://your-domain.example
+APP_KEY=base64:...generate_with_php_artisan_key_generate...
+TECHNICIAN_ACCESS_CODE=CHANGE_ME
+
+DB_CONNECTION=pgsql
+DB_HOST=aws-0-ap-northeast-1.pooler.supabase.com
+DB_PORT=5432
+DB_DATABASE=postgres
+DB_USERNAME=postgres.your_project_ref
+DB_PASSWORD=your_supabase_password
+DB_SSLMODE=require
+
+SESSION_DRIVER=file
+SESSION_LIFETIME=120
+SESSION_SECURE_COOKIE=true
+SESSION_SAME_SITE=lax
 ```
 
-5. Set database and other secret environment variables in the Cloud Run service settings:
-   - `DB_CONNECTION=mysql`
-   - `DB_HOST` / `DB_PORT`
-   - `DB_DATABASE`
-   - `DB_USERNAME`
-   - `DB_PASSWORD`
-   - `APP_KEY` (optional if not generated automatically)
-   - `TECHNICIAN_ACCESS_CODE`
+### Deploy checklist
 
-6. Run migrations after deployment:
+1. Copy `.env.example` to `.env` locally and fill in real values.
+2. Generate Laravel app key:
+   ```bash
+   php artisan key:generate --force
+   ```
+3. Run database migrations:
+   ```bash
+   php artisan migrate --force
+   ```
+4. Seed the dev user if needed:
+   ```bash
+   php artisan db:seed --class=DevUserSeeder
+   ```
+5. Configure the server to serve the Laravel app on HTTPS and use the correct `APP_URL`.
+6. Do not commit `.env` or any secret values to a public Git repository.
 
-```bash
-gcloud run services proxy --region us-central1
-# in another terminal
-php artisan migrate --force
-```
+### Recommended hosting pattern
 
-You should also configure a Cloud SQL instance for MySQL and supply the connection details as environment variables.
+- App runtime: Render, Railway, VPS, or Cloud Run
+- Database: Supabase Postgres
+- Static assets: served by the Laravel app or CDN
 
-## Running locally with Docker Compose
+## Running locally with PHP
 
-If you want to run this application on another machine, use the included `docker-compose.yml`.
+If you want to run this application on another machine, use the local PHP built-in server or your preferred web server.
 
 1. Copy the example environment file if you need a local `.env`:
    ```bash
    cp .env.example .env
    ```
 
-2. Build and start the app:
+2. Generate the app key and run migrations:
    ```bash
-   docker compose up --build
+   php artisan key:generate --force
+   php artisan migrate --force
    ```
 
-3. Open the app in your browser:
+3. Start the app:
+   ```bash
+   php artisan serve --host=127.0.0.1 --port=8000
+   ```
+
+4. Open the app in your browser:
    ```text
-   http://localhost:8080
-   ```
-
-4. To stop the app:
-   ```bash
-   docker compose down
+   http://127.0.0.1:8000
    ```
 
 ## Autorun
