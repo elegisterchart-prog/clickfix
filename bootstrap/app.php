@@ -12,8 +12,12 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
+        // Trust any proxy (Render, Railway, etc.) and allow all hostnames temporarily to avoid
+        // Symfony "400 Bad Request" errors caused by strict host validation from proxies.
+        // This is a pragmatic, temporary measure for deployment debugging — consider
+        // restricting the trusted host patterns before promoting to long-term production.
         $middleware->trustProxies(at: '*');
-        $middleware->trustHosts();
+        $middleware->trustHosts(['^.*$']);
         $middleware->validateCsrfTokens(except: ['login', 'register', 'dev/create-user', 'logout']);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
