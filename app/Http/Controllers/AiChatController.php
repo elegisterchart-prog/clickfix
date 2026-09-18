@@ -158,6 +158,14 @@ class AiChatController extends Controller
             $urls[] = rtrim($configured, '/');
         }
 
+        // In production we prefer an explicit configured URL only. Local loopback
+        // fallbacks are useful for developer machines but cause immediate connection
+        // failures on hosted platforms (Render, Railway). Avoid trying localhost in
+        // production to prevent noisy errors and slow fallbacks.
+        if (env('APP_ENV') === 'production') {
+            return array_values(array_unique($urls));
+        }
+
         $urls = array_values(array_unique(array_merge($urls, [
             'http://127.0.0.1:11434/api/chat',
             'http://127.0.0.1:11434/v1/chat/completions',
